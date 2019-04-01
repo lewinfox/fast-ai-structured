@@ -1,6 +1,6 @@
 Package: fastaistructured
 Title: Tools for Working With Structured Data
-Version: 0.0.0.9000
+Version: 0.0.0.9001
 Authors@R: 
     person(given = "Lewin",
            family = "Appleton-Fox",
