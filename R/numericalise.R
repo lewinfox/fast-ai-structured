@@ -20,6 +20,10 @@ numericalise <- function(df, col, new_col_name = NULL, max_n_cats = Inf) {
   if (is.null(new_col_name)) {
     new_col_name <- paste(col, "numeric", sep = "_")
   }
+  if (class(df[[col]]) == "logical") {
+    df[[new_col_name]] <- as.numeric(df[[col]])
+    return(df)
+  }
   if (length(unique(df[[col]])) <= max_n_cats) {
     df[[new_col_name]] <- as.numeric(as.factor(df[[col]]))
   }
