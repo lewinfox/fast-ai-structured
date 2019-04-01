@@ -1,4 +1,4 @@
-Package: fast-ai-structured
+Package: fastaistructured
 Title: Tools for Working With Structured Data
 Version: 0.0.0.9000
 Authors@R: 
