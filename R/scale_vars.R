@@ -12,8 +12,8 @@
 scale_vars <- function(df) {
   for (col in colnames(df)) {
     if (is.numeric(df[[col]])) {
-      mean <- mean(df[[col]])
-      sd <- sd(df[[col]])
+      mean <- mean(df[[col]], na.rm = TRUE)
+      sd <- sd(df[[col]], na.rm = TRUE)
       df[[col]] <- (df[[col]] - mean) / sd
     }
   }
