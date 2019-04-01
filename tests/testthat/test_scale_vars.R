@@ -27,4 +27,11 @@ test_that("scale_vars calculates mean and median correctly", {
   expect_equal(scaled_df$a, scaled_df$d * -1)
 })
 
+test_that("scale_vars normalises correctly", {
+  normalised_df <- scale_vars(df, normalise = TRUE)
+  expect_equal(max(normalised_df$a), 1)
+  expect_equal(min(normalised_df$b), 0)
+  expect_equal(max(normalised_df$a), max(normalised_df$b))
+})
+
 rm(df, scaled_df)

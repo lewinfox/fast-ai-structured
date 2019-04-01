@@ -4,10 +4,13 @@
 \alias{scale_vars}
 \title{Transform numeric columns}
 \usage{
-scale_vars(df)
+scale_vars(df, normalise = FALSE)
 }
 \arguments{
 \item{df}{A `data.frame` to be transformed.}
+
+\item{normalise}{If \code{TRUE}, after scaling and centering the values are
+normalised to the range 0, 1.}
 }
 \value{
 A transformed `data.frame`.
@@ -15,5 +18,6 @@ A transformed `data.frame`.
 \description{
 If the `mapper` argument is supplied, equivalent to calling `mapper(df)`. If
 mapper is not supplied then any numeric columns are scaled and centred to
-have a mean of 0 and a standard deviation of 1.
+have a mean of 0 and a standard deviation of 1. Optionally, also normalise
+the values to the range 0, 1.
 }
