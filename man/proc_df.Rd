@@ -4,9 +4,9 @@
 \alias{proc_df}
 \title{Process a data.frame}
 \usage{
-proc_df(df, y = NULL, do_scale = FALSE, nas = NULL,
-  preproc_fun = NULL, max_n_cats = Inf, subset = NULL,
-  mapper = NULL)
+proc_df(df, y = NULL, do_scale = FALSE, normalise = FALSE,
+  detect_outliers = FALSE, nas = NULL, preproc_fun = NULL,
+  max_n_cats = Inf, subset = NULL, mapper = NULL)
 }
 \arguments{
 \item{df}{The data frame of interest.}
@@ -14,36 +14,42 @@ proc_df(df, y = NULL, do_scale = FALSE, nas = NULL,
 \item{y}{The dependent variable. If not specified it is assumed that
 \code{df} contains only independent variables.}
 
-\item{do_scale}{Boolean - should columns be scaled and centred?}
+\item{do_scale}{Should columns be scaled and centred?}
+
+\item{normalise}{See \code{\link{scale_vars}}.}
+
+\item{detect_outliers}{Should outliers be flagged? If \code{TRUE}, also set
+\code{outlier_threshold}, \code{clip_outliers} and
+\code{flag_outliers_both_directions}. See \link{\code{detect_outliers}}.}
 
 \item{preproc_fun}{A function to be applied to \code{df}. This will be simply
-called as \code{df <- preproc_fn(df)}, so make sure it is fully
-self-contained and returns a \code{data.frame}.}
+called as \code{df <- preproc_fn(df)} before any other operations, so make
+sure it is fully self-contained and returns a \code{data.frame}.}
 
 \item{max_n_cats}{Column with less than or equal to this number of unique
 entries will be converted to one-hot encoded columns.}
 
-\item{subset}{If set, a random sample of \code{n = subset} rows will be taken.}
+\item{subset}{If set, a random sample of \code{subset} rows will be taken.}
 
 \item{mapper}{If \code{do_scale} is true, the mapper function calculates the
-scalng params (mean and standard deviation) to be applied.}
+scaling params (mean and standard deviation) to be applied.}
 
 \item{skip_fields}{A character vector of column names to be dropped from
-\code{df}.}
+\code{df}. Not yet implemented.}
 
 \item{ignore_fields}{A character vector of column names to be ignored during
-processing.}
+processing. Not yet implemented.}
+
+\item{outlier_threshold}{See \code{\link{detect_outliers}}.}
 
 \item{na_list}{List of NA column to add. NA columns are also added if there
-are any mising values.}
+are any mising values. Not yet implemented.}
 }
 \value{
-A \code{list} containing three items: \code{x}, \code{y}, \code{NAs},
-  and (optionally) \code{mapper}, a data.frame containing the mean and
-  standard deviation of each column.
+A transformed \code{data.frame}.
 }
 \description{
-Port of the Python \code{fast.ai}'s \code{prod_df} function.
+Port of \href{https://github.com/fastai/fastai}{fast.ai}'s \code{proc_df} function.
 }
 \details{
 Given an input data.frame, split off the response variable and convert it

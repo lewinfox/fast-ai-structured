@@ -4,26 +4,26 @@
 \alias{detect_outliers}
 \title{Flag outliers}
 \usage{
-detect_outliers(df, col, threshold = 1.5, clip = FALSE,
-  flag_both_directions = FALSE)
+detect_outliers(df, col, outlier_threshold = 1.5,
+  clip_outliers = FALSE, flag_outliers_both_directions = FALSE)
 }
 \arguments{
 \item{df}{The data.frame to be transformed}
 
 \item{col}{The column of interest}
 
-\item{threshold}{Values more than \code{threshold} times the interquartile
+\item{outlier_threshold}{Values more than \code{outlier_threshold} times the interquartile
 range outside the interquartile range are considered outliers.}
 
-\item{clip}{If \code{TRUE}, values above or below the specified threshold
+\item{clip_outliers}{If \code{TRUE}, values above or below the specified threshold
 will be clipped to the relevant threshold.}
 
-\item{flag_both_directions}{If \code{TRUE}, two boolean columns will be added
+\item{flag_outliers_both_directions}{If \code{TRUE}, two boolean columns will be added
 to indicate whether the values was above or below the detection threshold.}
 }
 \description{
 Flag any values that fall outside a specified range. By default, any
-observation more than 1.5x the interquartile range will be tagged. The `clip`
-option controls whether values outside this range will be trimmed to the
-appropriate max or min.
+observation more than 1.5x the interquartile range will be tagged. The
+`clip_outliers` option controls whether values outside this range will be
+trimmed to the appropriate max or min.
 }

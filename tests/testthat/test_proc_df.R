@@ -10,16 +10,23 @@ animals <- data.frame(
   stringsAsFactors = FALSE
 )
 
-proc_df_result <- proc_df(animals, do_scale = TRUE)
+proc_df_result <- proc_df(animals)
+proc_df_result_scaled <- proc_df(animals, do_scale = TRUE)
+proc_df_result_dropped_y <- proc_df(animals, y = "weight")
 
 test_that("proc_df returns correct data types", {
   expect_is(proc_df_result, "data.frame")
   expect_true(all(sapply(proc_df_result, class) == "numeric"))
 })
 
+test_that("proc_df drops the dependent variable", {
+  expect_false("weight" %in% colnames(proc_df_result_dropped_y))
+})
+
 test_that("proc_df's one-hot encoding works", {
   expect_equal(colnames(proc_df_result),
                c("age", "is_nice", "is_hungry", "weight",
                  "weight_na", "animal_cat", "animal_dog", "animal_monkey",
-                 "size_large", "size_medium", "size_small", "size_xl"))
+                 "size_large", "size_medium", "size_small", "size_xl")
+  )
 })
