@@ -8,7 +8,9 @@ df <- data.frame(a = c(1, 2, 3, 4),
                  f = factor(c("blue", "red", "green", "green")),
                  stringsAsFactors = FALSE)
 
-scaled_df <- scale_vars(df)
+scaled_df <- scale_vars(df, normalise = FALSE)
+
+normalised_df <- scale_vars(df, normalise = TRUE)
 
 test_that("scale_vars returns correct types", {
   expect_is(scaled_df, "data.frame")
@@ -28,7 +30,6 @@ test_that("scale_vars calculates mean and median correctly", {
 })
 
 test_that("scale_vars normalises correctly", {
-  normalised_df <- scale_vars(df, normalise = TRUE)
   expect_equal(max(normalised_df$a), 1)
   expect_equal(min(normalised_df$b), 0)
   expect_equal(max(normalised_df$a), max(normalised_df$b))

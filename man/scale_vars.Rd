@@ -13,11 +13,9 @@ scale_vars(df, normalise = FALSE)
 normalised to the range 0, 1.}
 }
 \value{
-A transformed `data.frame`.
+A transformed \code{data.frame}.
 }
 \description{
-If the `mapper` argument is supplied, equivalent to calling `mapper(df)`. If
-mapper is not supplied then any numeric columns are scaled and centred to
-have a mean of 0 and a standard deviation of 1. Optionally, also normalise
-the values to the range 0, 1.
+Any numeric columns are scaled and centred to have a mean of 0 and a standard
+deviation of 1. Optionally, also normalise the values to the range 0, 1.
 }

@@ -34,6 +34,7 @@
 #'
 proc_df <- function(df, y = NULL, do_scale = FALSE, nas = NULL, preproc_fun = NULL,
                     max_n_cats = Inf, subset = NULL, mapper = NULL) {
+  stopifnot(is.data.frame(df))
 
   if (!is.null(y)) {
     result$y <- df[[y]]
@@ -42,8 +43,11 @@ proc_df <- function(df, y = NULL, do_scale = FALSE, nas = NULL, preproc_fun = NU
 
   # ---- Setup and preprocessing ----
   if (!is.null(subset)) {
-    rows_to_keep <- sample(x = nrow(df), size = sample, replace = FALSE,
-                           prob = NULL)
+    rows_to_keep <- sample(
+      x = nrow(df),
+      size = sample,
+      replace = FALSE,
+      prob = NULL)
     df <- df[rows_to_keep, ]
   }
   if (!is.null(preproc_fun)) {
@@ -53,7 +57,7 @@ proc_df <- function(df, y = NULL, do_scale = FALSE, nas = NULL, preproc_fun = NU
     df <- fix_missing(df)
   }
 
-  # Scale numeric variables
+  # ---- Scale numeric variables ----
   if (do_scale) {
     df <- scale_vars(df)
   }
