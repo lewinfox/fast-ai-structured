@@ -20,6 +20,8 @@
 #'   \code{outlier_threshold}, \code{clip_outliers} and
 #'   \code{flag_outliers_both_directions}. See \link{\code{detect_outliers}}.
 #' @param outlier_threshold See \code{\link{detect_outliers}}.
+#' @param clip_outliers See \code{\link{detect_outliers}}.
+#' @param flag_outliers_both_directions See \code{\link{detect_outliers}}.
 #' @param na_list List of NA column to add. NA columns are also added if there
 #'   are any mising values. Not yet implemented.
 #' @param preproc_fun A function to be applied to \code{df}. This will be simply
@@ -40,6 +42,9 @@ proc_df <- function(df,
                     do_scale = FALSE,
                     normalise = FALSE,
                     detect_outliers = FALSE,
+                    outlier_threshold = 1.5,
+                    clip_outliers = FALSE,
+                    flag_outliers_both_directions = FALSE,
                     nas = NULL,
                     preproc_fun = NULL,
                     max_n_cats = Inf,
@@ -78,6 +83,17 @@ proc_df <- function(df,
   }
 
   # ---- Detect outliers ----
+  if (detect_outliers) {
+    for (col in colnames(df)) {
+      if (is.numeric(df[[col]])) {
+        df <- detect_outliers(df = df,
+                              col = col,
+                              outlier_threshold = outlier_threshold,
+                              clip_outliers = clip_outliers,
+                              flag_outliers_both_directions = flag_outliers_both_directions)
+      }
+    }
+  }
 
   # ---- Scale numeric variables ----
   if (do_scale) {
@@ -91,16 +107,10 @@ proc_df <- function(df,
     }
   }
 
-  # ---- Convert any booleans to 1 / 0 ----
-  df <- as.data.frame(
-    lapply(df, function(x) if (is.logical(x)) as.numeric(x) else x),
-    stringsAsFactors = FALSE
-  )
-
   # ---- Convert remaining non-numeric variables ----
   for (col in colnames(df)) {
     if (!is.numeric(df[[col]])) {
-      df <- numericalise(df = df, col = col, max_n_cats = max_n_cats)
+      df <- numericalise(df = df, col = col)
     }
   }
   return(df)

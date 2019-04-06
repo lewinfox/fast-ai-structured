@@ -5,8 +5,10 @@
 \title{Process a data.frame}
 \usage{
 proc_df(df, y = NULL, do_scale = FALSE, normalise = FALSE,
-  detect_outliers = FALSE, nas = NULL, preproc_fun = NULL,
-  max_n_cats = Inf, subset = NULL, mapper = NULL)
+  detect_outliers = FALSE, outlier_threshold = 1.5,
+  clip_outliers = FALSE, flag_outliers_both_directions = FALSE,
+  nas = NULL, preproc_fun = NULL, max_n_cats = Inf, subset = NULL,
+  mapper = NULL)
 }
 \arguments{
 \item{df}{The data frame of interest.}
@@ -21,6 +23,12 @@ proc_df(df, y = NULL, do_scale = FALSE, normalise = FALSE,
 \item{detect_outliers}{Should outliers be flagged? If \code{TRUE}, also set
 \code{outlier_threshold}, \code{clip_outliers} and
 \code{flag_outliers_both_directions}. See \link{\code{detect_outliers}}.}
+
+\item{outlier_threshold}{See \code{\link{detect_outliers}}.}
+
+\item{clip_outliers}{See \code{\link{detect_outliers}}.}
+
+\item{flag_outliers_both_directions}{See \code{\link{detect_outliers}}.}
 
 \item{preproc_fun}{A function to be applied to \code{df}. This will be simply
 called as \code{df <- preproc_fn(df)} before any other operations, so make
@@ -39,8 +47,6 @@ scaling params (mean and standard deviation) to be applied.}
 
 \item{ignore_fields}{A character vector of column names to be ignored during
 processing. Not yet implemented.}
-
-\item{outlier_threshold}{See \code{\link{detect_outliers}}.}
 
 \item{na_list}{List of NA column to add. NA columns are also added if there
 are any mising values. Not yet implemented.}
