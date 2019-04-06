@@ -21,5 +21,5 @@ test_that("proc_df's one-hot encoding works", {
   expect_equal(colnames(proc_df_result),
                c("age", "is_nice", "is_hungry", "weight",
                  "weight_na", "animal_cat", "animal_dog", "animal_monkey",
-                 "size_small", "size_medium", "size_large", "size_xl"))
+                 "size_large", "size_medium", "size_small", "size_xl"))
 })

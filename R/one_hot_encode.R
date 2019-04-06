@@ -16,21 +16,30 @@
 #' @export
 one_hot_encode <- function(df, col, max_n_cats = Inf, drop_one_col = FALSE) {
   stopifnot(is.data.frame(df))
-  values <- unique(df[[col]])
+  count <- table(df[[col]])
+  values <- names(count)
   # If the number of unique values is more than `max_n_cats` then we will leave
   # the column unaltered.
   if (length(values) <= max_n_cats) {
-    if (drop_one_col) {
-      # TODO: Drop the most common column rather than just the first
-      values <- values[2:length(values)]
-    }
-    for (value in values) {
-      new_col_data <- as.numeric(df[[col]] == value)
-      value <- gsub("[[:space:]]", "_", value)
-      new_col_name <- paste(col, value, sep = "_")
-      df[new_col_name] <- new_col_data
-    }
+    one_hot_vars <- as.data.frame(model.matrix(~ df[[col]] - 1))
+    # Names need fixing - we first have to trim off the "df[[col]]" that
+    # `model.matrix` has prepended, then replace any spaces with underscores.
+    # For readability this is split into two steps.
+    trimmed_names <- gsub("^df\\[\\[col\\]\\]", "", colnames(one_hot_vars))
+    colnames(one_hot_vars) <- paste(col, gsub("[[:space:]]", "_", trimmed_names), sep = "_")
     df[col] <- NULL
+
+    # If `drop_one_col` is TRUE, the column corresponding to the most common
+    # case will be dropped.
+    if (drop_one_col) {
+      # The names need to be converted to the right format first
+      names(count) <- paste(col, gsub("[[:space:]]", "_", names(count)), sep = "_")
+      # Find the value/s that are most common
+      to_drop <- names(count[count == max(count)])
+      # In case there's a tie, pick the first one
+      to_drop <- to_drop[1]
+      one_hot_vars[[to_drop]] <- NULL
+    }
   }
-  return(df)
+  cbind(df, one_hot_vars)
 }
